@@ -1,0 +1,335 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {
+    "ServerlessDeploymentBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccelerateConfiguration": {
+          "AccelerationStatus": "Suspended"
+        }
+      },
+      "DependsOn": []
+    },
+    "HelloLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/split-stack-documentation-test-v2-stage-hello"
+      },
+      "DependsOn": []
+    },
+    "IamRoleLambdaExecution": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": {
+              "Fn::Join": [
+                "-",
+                [
+                  "stage",
+                  "split-stack-documentation-test-v2",
+                  "lambda"
+                ]
+              ]
+            },
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/split-stack-documentation-test-v2-stage-hello:*"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/split-stack-documentation-test-v2-stage-hello:*:*"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "Path": "/",
+        "RoleName": {
+          "Fn::Join": [
+            "-",
+            [
+              "split-stack-documentation-test-v2",
+              "stage",
+              "us-east-1",
+              "lambdaRole"
+            ]
+          ]
+        }
+      },
+      "DependsOn": []
+    },
+    "HelloLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z/split-stack-documentation-test-v2.zip"
+        },
+        "FunctionName": "split-stack-documentation-test-v2-stage-hello",
+        "Handler": "handler.hello",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs6.10",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "HelloLogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "ApiGatewayDeployment1518468687528": {
+      "Type": "AWS::ApiGateway::Deployment",
+      "Properties": {
+        "RestApiId": {
+          "Fn::GetAtt": [
+            "APINestedStack",
+            "Outputs.ApiGatewayRestApi"
+          ]
+        },
+        "StageName": "stage"
+      },
+      "DependsOn": [
+        "APINestedStack",
+        "MethodsNestedStack"
+      ]
+    },
+    "VersionsNestedStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "Parameters": {
+          "HelloLambdaFunctionParameter": {
+            "Ref": "HelloLambdaFunction"
+          }
+        },
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com",
+              {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
+              "cloudformation-template-Versions-nested-stack.json"
+            ]
+          ]
+        }
+      },
+      "DependsOn": [
+        "HelloLambdaFunction"
+      ]
+    },
+    "APINestedStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "Parameters": {},
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com",
+              {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
+              "cloudformation-template-API-nested-stack.json"
+            ]
+          ]
+        }
+      }
+    },
+    "MethodsNestedStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "Parameters": {
+          "ApiGatewayRestApiParameter": {
+            "Fn::GetAtt": [
+              "APINestedStack",
+              "Outputs.ApiGatewayRestApi"
+            ]
+          },
+          "ApiGatewayResourceThingsParameter": {
+            "Fn::GetAtt": [
+              "APINestedStack",
+              "Outputs.ApiGatewayResourceThings"
+            ]
+          },
+          "HelloLambdaFunctionArnParameter": {
+            "Fn::GetAtt": [
+              "HelloLambdaFunction",
+              "Arn"
+            ]
+          }
+        },
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com",
+              {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
+              "cloudformation-template-Methods-nested-stack.json"
+            ]
+          ]
+        }
+      },
+      "DependsOn": [
+        "APINestedStack",
+        "HelloLambdaFunction",
+        "ModelsNestedStack"
+      ]
+    },
+    "PermissionsNestedStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "Parameters": {
+          "ApiGatewayRestApiParameter": {
+            "Fn::GetAtt": [
+              "APINestedStack",
+              "Outputs.ApiGatewayRestApi"
+            ]
+          },
+          "HelloLambdaFunctionArnParameter": {
+            "Fn::GetAtt": [
+              "HelloLambdaFunction",
+              "Arn"
+            ]
+          }
+        },
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com",
+              {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
+              "cloudformation-template-Permissions-nested-stack.json"
+            ]
+          ]
+        }
+      },
+      "DependsOn": [
+        "APINestedStack",
+        "HelloLambdaFunction"
+      ]
+    },
+    "ModelsNestedStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "Parameters": {
+          "ApiGatewayRestApiParameter": {
+            "Fn::GetAtt": [
+              "APINestedStack",
+              "Outputs.ApiGatewayRestApi"
+            ]
+          }
+        },
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com",
+              {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
+              "cloudformation-template-Models-nested-stack.json"
+            ]
+          ]
+        }
+      },
+      "DependsOn": [
+        "APINestedStack"
+      ]
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": {
+        "Ref": "ServerlessDeploymentBucket"
+      }
+    },
+    "HelloLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Fn::GetAtt": [
+          "VersionsNestedStack",
+          "Outputs.HelloLambdaVersion8DLeJbpzjd2XniMircYzvTq0aimJdebv4TBlrFto"
+        ]
+      }
+    },
+    "ServiceEndpoint": {
+      "Description": "URL of the service endpoint",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Fn::GetAtt": [
+                "APINestedStack",
+                "Outputs.ApiGatewayRestApi"
+              ]
+            },
+            ".execute-api.us-east-1.amazonaws.com/stage"
+          ]
+        ]
+      }
+    },
+    "AwsDocApiId": {
+      "Description": "API ID",
+      "Value": {
+        "Fn::GetAtt": [
+          "APINestedStack",
+          "Outputs.ApiGatewayRestApi"
+        ]
+      }
+    }
+  }
+}

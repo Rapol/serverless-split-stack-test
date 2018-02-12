@@ -1,0 +1,29 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "VersionsNestedStack nested stack",
+  "Parameters": {
+    "HelloLambdaFunctionParameter": {
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "HelloLambdaVersion8DLeJbpzjd2XniMircYzvTq0aimJdebv4TBlrFto": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "HelloLambdaFunctionParameter"
+        },
+        "CodeSha256": "TfG6k7S6TndfVQEJLGtYtivHuc/L4K3cpKmKE2etuRw="
+      },
+      "DependsOn": []
+    }
+  },
+  "Outputs": {
+    "HelloLambdaVersion8DLeJbpzjd2XniMircYzvTq0aimJdebv4TBlrFto": {
+      "Value": {
+        "Ref": "HelloLambdaVersion8DLeJbpzjd2XniMircYzvTq0aimJdebv4TBlrFto"
+      }
+    }
+  }
+}
