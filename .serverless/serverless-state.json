@@ -115,7 +115,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z/split-stack-documentation-test-v2.zip"
+                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z/split-stack-documentation-test-v2.zip"
               },
               "FunctionName": "split-stack-documentation-test-v2-stage-hello",
               "Handler": "handler.hello",
@@ -134,7 +134,7 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "ApiGatewayDeployment1518468687528": {
+          "ApiGatewayDeployment1518469432633": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -149,51 +149,6 @@
               "APINestedStack",
               "MethodsNestedStack"
             ]
-          },
-          "VersionsNestedStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-              "Parameters": {
-                "HelloLambdaFunctionParameter": {
-                  "Ref": "HelloLambdaFunction"
-                }
-              },
-              "TemplateURL": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "https://s3.amazonaws.com",
-                    {
-                      "Ref": "ServerlessDeploymentBucket"
-                    },
-                    "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
-                    "cloudformation-template-Versions-nested-stack.json"
-                  ]
-                ]
-              }
-            },
-            "DependsOn": [
-              "HelloLambdaFunction"
-            ]
-          },
-          "APINestedStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-              "Parameters": {},
-              "TemplateURL": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "https://s3.amazonaws.com",
-                    {
-                      "Ref": "ServerlessDeploymentBucket"
-                    },
-                    "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
-                    "cloudformation-template-API-nested-stack.json"
-                  ]
-                ]
-              }
-            }
           },
           "MethodsNestedStack": {
             "Type": "AWS::CloudFormation::Stack",
@@ -226,7 +181,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
                     "cloudformation-template-Methods-nested-stack.json"
                   ]
                 ]
@@ -236,6 +191,54 @@
               "APINestedStack",
               "HelloLambdaFunction",
               "ModelsNestedStack"
+            ]
+          },
+          "APINestedStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "Parameters": {},
+              "TemplateURL": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://s3.amazonaws.com",
+                    {
+                      "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
+                    "cloudformation-template-API-nested-stack.json"
+                  ]
+                ]
+              }
+            }
+          },
+          "ModelsNestedStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "Parameters": {
+                "ApiGatewayRestApiParameter": {
+                  "Fn::GetAtt": [
+                    "APINestedStack",
+                    "Outputs.ApiGatewayRestApi"
+                  ]
+                }
+              },
+              "TemplateURL": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://s3.amazonaws.com",
+                    {
+                      "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
+                    "cloudformation-template-Models-nested-stack.json"
+                  ]
+                ]
+              }
+            },
+            "DependsOn": [
+              "APINestedStack"
             ]
           },
           "PermissionsNestedStack": {
@@ -263,7 +266,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
                     "cloudformation-template-Permissions-nested-stack.json"
                   ]
                 ]
@@ -274,15 +277,12 @@
               "HelloLambdaFunction"
             ]
           },
-          "ModelsNestedStack": {
+          "VersionsNestedStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
               "Parameters": {
-                "ApiGatewayRestApiParameter": {
-                  "Fn::GetAtt": [
-                    "APINestedStack",
-                    "Outputs.ApiGatewayRestApi"
-                  ]
+                "HelloLambdaFunctionParameter": {
+                  "Ref": "HelloLambdaFunction"
                 }
               },
               "TemplateURL": {
@@ -293,14 +293,14 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
-                    "cloudformation-template-Models-nested-stack.json"
+                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
+                    "cloudformation-template-Versions-nested-stack.json"
                   ]
                 ]
               }
             },
             "DependsOn": [
-              "APINestedStack"
+              "HelloLambdaFunction"
             ]
           }
         },
@@ -315,7 +315,7 @@
             "Value": {
               "Fn::GetAtt": [
                 "VersionsNestedStack",
-                "Outputs.HelloLambdaVersion8DLeJbpzjd2XniMircYzvTq0aimJdebv4TBlrFto"
+                "Outputs.HelloLambdaVersionPjXVE5k8kUFGO5hvWBjoBtNPLVcU0AW5Q5wlNWlxp1M"
               ]
             }
           },
@@ -380,26 +380,6 @@
           "termsOfService": "http://www.example.com/terms-of-service"
         },
         "models": [
-          {
-            "name": "ErrorResponse",
-            "description": "This is an error",
-            "contentType": "application/json",
-            "schema": {
-              "$schema": "http://json-schema.org/draft-04/schema#",
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer"
-                },
-                "error": {
-                  "type": "string"
-                },
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           {
             "name": "CreateRequest",
             "description": "Model for creating something",
@@ -469,7 +449,7 @@
           },
           {
             "name": "CreateResponse",
-            "description": "Model for getting something",
+            "description": "Model for creating something response",
             "contentType": "application/json",
             "schema": {
               "$schema": "http://json-schema.org/draft-04/schema#",
@@ -480,8 +460,98 @@
                 }
               }
             }
+          },
+          {
+            "name": "StatusResponse",
+            "description": "Example status response",
+            "contentType": "application/json",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "CustomError",
+            "description": "This is an error",
+            "contentType": "application/json",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
           }
-        ]
+        ],
+        "commonModelSchemaFragments": {
+          "MethodResponse200Json": {
+            "statusCode": "200",
+            "responseModels": {
+              "application/json": "StatusResponse"
+            }
+          },
+          "MethodResponse400Json": {
+            "statusCode": "400",
+            "responseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          "MethodResponse401Json": {
+            "statusCode": "401",
+            "responseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          "MethodResponse403Json": {
+            "statusCode": "403",
+            "responseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          "MethodResponse404Json": {
+            "statusCode": "404",
+            "responseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          "MethodResponse409Json": {
+            "statusCode": "409",
+            "responseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          "MethodResponse422Json": {
+            "statusCode": "422",
+            "responseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          "MethodResponse429Json": {
+            "statusCode": "429",
+            "responseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          "MethodResponse500Json": {
+            "statusCode": "500",
+            "responseModels": {
+              "application/json": "CustomError"
+            }
+          }
+        }
       }
     },
     "plugins": [
@@ -530,7 +600,7 @@
                   {
                     "statusCode": "500",
                     "responseModels": {
-                      "application/json": "ErrorResponse"
+                      "application/json": "CustomError"
                     }
                   }
                 ]
@@ -577,10 +647,25 @@
                     }
                   },
                   {
-                    "statusCode": "500",
-                    "responseModels": {
-                      "application/json": "ErrorResponse"
-                    }
+                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse400Json\"]"
+                  },
+                  {
+                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse401Json\"]"
+                  },
+                  {
+                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse403Json\"]"
+                  },
+                  {
+                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse409Json\"]"
+                  },
+                  {
+                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse422Json\"]"
+                  },
+                  {
+                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse429Json\"]"
+                  },
+                  {
+                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse500Json\"]"
                   }
                 ]
               },
@@ -596,7 +681,7 @@
     "artifact": "/Users/rapol/Projects/split-stack-documentation-test/.serverless/split-stack-documentation-test-v2.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518468687516-2018-02-12T20:51:27.516Z",
+    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
     "artifact": "split-stack-documentation-test-v2.zip"
   }
 }

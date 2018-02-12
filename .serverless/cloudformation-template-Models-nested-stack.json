@@ -7,32 +7,6 @@
     }
   },
   "Resources": {
-    "ErrorResponseModel": {
-      "Type": "AWS::ApiGateway::Model",
-      "Properties": {
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApiParameter"
-        },
-        "ContentType": "application/json",
-        "Name": "ErrorResponse",
-        "Schema": {
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "type": "object",
-          "properties": {
-            "status": {
-              "type": "integer"
-            },
-            "error": {
-              "type": "string"
-            },
-            "message": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "DependsOn": []
-    },
     "CreateRequestModel": {
       "Type": "AWS::ApiGateway::Model",
       "Properties": {
@@ -64,6 +38,26 @@
           "required": [
             "serialNumber"
           ]
+        }
+      },
+      "DependsOn": []
+    },
+    "CreateResponseModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ContentType": "application/json",
+        "Name": "CreateResponse",
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
         }
       },
       "DependsOn": []
@@ -112,19 +106,45 @@
       },
       "DependsOn": []
     },
-    "CreateResponseModel": {
+    "StatusResponseModel": {
       "Type": "AWS::ApiGateway::Model",
       "Properties": {
         "RestApiId": {
           "Ref": "ApiGatewayRestApiParameter"
         },
         "ContentType": "application/json",
-        "Name": "CreateResponse",
+        "Name": "StatusResponse",
         "Schema": {
           "$schema": "http://json-schema.org/draft-04/schema#",
           "type": "object",
           "properties": {
-            "id": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DependsOn": []
+    },
+    "CustomErrorModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ContentType": "application/json",
+        "Name": "CustomError",
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "string"
+            },
+            "message": {
               "type": "string"
             }
           }

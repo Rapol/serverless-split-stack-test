@@ -13,6 +13,56 @@
     }
   },
   "Resources": {
+    "ApiGatewayMethodThingsGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceThingsParameter"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Ref": "HelloLambdaFunctionArnParameter"
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseModels": {
+              "application/json": "GetRequest"
+            }
+          },
+          {
+            "StatusCode": "500",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          }
+        ]
+      },
+      "DependsOn": []
+    },
     "ApiGatewayMethodThingsOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -60,56 +110,6 @@
       },
       "DependsOn": []
     },
-    "ApiGatewayMethodThingsGet": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceThingsParameter"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApiParameter"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:aws:apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Ref": "HelloLambdaFunctionArnParameter"
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseModels": {
-              "application/json": "GetRequest"
-            }
-          },
-          {
-            "StatusCode": "500",
-            "ResponseModels": {
-              "application/json": "ErrorResponse"
-            }
-          }
-        ]
-      },
-      "DependsOn": []
-    },
     "ApiGatewayMethodThingsPost": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -151,9 +151,45 @@
             }
           },
           {
+            "StatusCode": "400",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "401",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "403",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "409",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "422",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "429",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
             "StatusCode": "500",
             "ResponseModels": {
-              "application/json": "ErrorResponse"
+              "application/json": "CustomError"
             }
           }
         ],

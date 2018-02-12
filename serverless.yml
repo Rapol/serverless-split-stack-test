@@ -15,42 +15,4 @@ provider:
   profile: cjs-stage
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: things
-          method: get
-          cors: true
-          documentation:
-            summary: "Get things"
-            tags:
-              - "get-things"
-            methodResponses:
-              -
-                statusCode: "200"
-                responseModels:
-                  "application/json": "GetRequest"
-              -
-                statusCode: "500"
-                responseModels:
-                  "application/json": "ErrorResponse"
-      - http:
-          path: things
-          method: post
-          cors: true
-          documentation:
-            summary: "Creates a thing"
-            tags:
-              - "create-things"
-            requestModels:
-              "application/json": "CreateRequest"
-            methodResponses:
-              -
-                statusCode: "201"
-                responseModels:
-                  "application/json": "CreateResponse"
-              -
-                statusCode: "500"
-                responseModels:
-                  "application/json": "ErrorResponse"
+  hello: ${file(functions/hello.yml)}
