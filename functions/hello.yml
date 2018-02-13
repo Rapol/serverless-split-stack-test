@@ -38,4 +38,16 @@ events:
           - "${self:custom.documentation.commonModelSchemaFragments.MethodResponse409Json}"
           - "${self:custom.documentation.commonModelSchemaFragments.MethodResponse422Json}"
           - "${self:custom.documentation.commonModelSchemaFragments.MethodResponse429Json}"
+  - http:
+      path: things
+      method: put
+      cors: true
+      documentation:
+        tags:
+          - "put-things"
+        methodResponses:
+          -
+            statusCode: "200"
+            responseModels:
+              "application/json": "StatusResponse"
           - "${self:custom.documentation.commonModelSchemaFragments.MethodResponse500Json}"

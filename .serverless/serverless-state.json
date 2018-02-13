@@ -116,7 +116,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z/hello.zip"
+                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z/hello.zip"
               },
               "FunctionName": "split-stack-documentation-test-v2-stage-hello",
               "Handler": "src/handler.hello",
@@ -135,7 +135,7 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "ApiGatewayDeployment1518499175710": {
+          "ApiGatewayDeployment1518500855445": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -163,7 +163,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
                     "cloudformation-template-API-nested-stack.json"
                   ]
                 ]
@@ -201,7 +201,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
                     "cloudformation-template-Methods-nested-stack.json"
                   ]
                 ]
@@ -238,7 +238,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
                     "cloudformation-template-Permissions-nested-stack.json"
                   ]
                 ]
@@ -268,7 +268,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
                     "cloudformation-template-Models-nested-stack.json"
                   ]
                 ]
@@ -423,6 +423,19 @@
               "properties": {
                 "id": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "APResponse",
+            "contentType": "application/json",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
                 }
               }
             }
@@ -629,6 +642,45 @@
                   },
                   {
                     "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse429Json\"]"
+                  }
+                ]
+              },
+              "integration": "AWS_PROXY"
+            }
+          },
+          {
+            "http": {
+              "path": "things",
+              "method": "put",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "PUT"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "documentation": {
+                "tags": [
+                  "get-complicated-things"
+                ],
+                "methodResponses": [
+                  {
+                    "statusCode": "200",
+                    "responseModels": {
+                      "application/json": "StatusResponse"
+                    }
                   },
                   {
                     "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse500Json\"]"
@@ -649,7 +701,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
+    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
     "artifact": ""
   }
 }

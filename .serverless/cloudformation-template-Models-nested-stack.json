@@ -106,6 +106,26 @@
       },
       "DependsOn": []
     },
+    "APResponseModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ContentType": "application/json",
+        "Name": "APResponse",
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "DependsOn": []
+    },
     "StatusResponseModel": {
       "Type": "AWS::ApiGateway::Model",
       "Properties": {
