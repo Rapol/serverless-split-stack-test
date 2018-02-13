@@ -26,10 +26,12 @@ Deployment broke when using both plugins.
 
 # Environment
 
+```
 node -v v8.9.4
 sls -v 1.25.0
 serverless-plugin-split-stacks -v 1.4.1
 serverless-aws-documentation -v 1.0 (PR = https://github.com/ebouther/serverless-aws-documentation.git#fix/split-stacks-plugin-compatibility)
+```
 
 # Additional Info
 
