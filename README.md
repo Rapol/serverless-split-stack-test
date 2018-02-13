@@ -108,3 +108,28 @@ second method ApiGatewayMethodThingsPost which is defined before in the same clo
 
 Compare changes here:
 https://github.com/Rapol/serverless-split-stack-test/compare/failed/documentation/common-models
+
+# Workaround
+
+Instead of using ${self:custom.documentation...} to reference method responses just declared them directly in the http event method response
+
+```
+  - http:
+      path: things
+      method: put
+      cors: true
+      documentation:
+        tags:
+          - "put-things"
+        methodResponses:
+          -
+            statusCode: "200"
+            responseModels:
+              "application/json": "StatusResponse"
+          -
+            statusCode: '429'
+                responseModels:
+                  "application/json": "CustomError"
+```
+
+You might repeat yourself multiple times but it is an easy workaround and not that much of a deal
