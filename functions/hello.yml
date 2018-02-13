@@ -50,4 +50,5 @@ events:
             statusCode: "200"
             responseModels:
               "application/json": "StatusResponse"
+          - "${self:custom.documentation.commonModelSchemaFragments.MethodResponse429Json}"
           - "${self:custom.documentation.commonModelSchemaFragments.MethodResponse500Json}"

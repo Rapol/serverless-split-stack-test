@@ -116,7 +116,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z/hello.zip"
+                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z/hello.zip"
               },
               "FunctionName": "split-stack-documentation-test-v2-stage-hello",
               "Handler": "src/handler.hello",
@@ -135,7 +135,7 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "ApiGatewayDeployment1518500855445": {
+          "ApiGatewayDeployment1518501298338": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -163,7 +163,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
                     "cloudformation-template-API-nested-stack.json"
                   ]
                 ]
@@ -201,7 +201,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
                     "cloudformation-template-Methods-nested-stack.json"
                   ]
                 ]
@@ -238,7 +238,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
                     "cloudformation-template-Permissions-nested-stack.json"
                   ]
                 ]
@@ -268,7 +268,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
                     "cloudformation-template-Models-nested-stack.json"
                   ]
                 ]
@@ -423,19 +423,6 @@
               "properties": {
                 "id": {
                   "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "name": "APResponse",
-            "contentType": "application/json",
-            "schema": {
-              "$schema": "http://json-schema.org/draft-04/schema#",
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer"
                 }
               }
             }
@@ -673,7 +660,7 @@
               },
               "documentation": {
                 "tags": [
-                  "get-complicated-things"
+                  "put-things"
                 ],
                 "methodResponses": [
                   {
@@ -681,6 +668,9 @@
                     "responseModels": {
                       "application/json": "StatusResponse"
                     }
+                  },
+                  {
+                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse429Json\"]"
                   },
                   {
                     "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse500Json\"]"
@@ -701,7 +691,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518500855435-2018-02-13T05:47:35.435Z",
+    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
     "artifact": ""
   }
 }

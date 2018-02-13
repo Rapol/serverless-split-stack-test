@@ -234,6 +234,12 @@
             }
           },
           {
+            "StatusCode": "429",
+            "ResponseModels": {
+              "$ref": "$[\"Resources\"][\"ApiGatewayMethodThingsPost\"][\"Properties\"][\"MethodResponses\"][6][\"ResponseModels\"]"
+            }
+          },
+          {
             "StatusCode": "500",
             "ResponseModels": {
               "application/json": "CustomError"
