@@ -3,6 +3,18 @@
   "Description": "APINestedStack nested stack",
   "Parameters": {},
   "Resources": {
+    "ApiGatewayRestApi": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "Name": "stage-split-stack-documentation-test-v2",
+        "EndpointConfiguration": {
+          "Types": [
+            "EDGE"
+          ]
+        }
+      },
+      "DependsOn": []
+    },
     "ApiGatewayResourceThings": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
@@ -15,18 +27,6 @@
         "PathPart": "things",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
-        }
-      },
-      "DependsOn": []
-    },
-    "ApiGatewayRestApi": {
-      "Type": "AWS::ApiGateway::RestApi",
-      "Properties": {
-        "Name": "stage-split-stack-documentation-test-v2",
-        "EndpointConfiguration": {
-          "Types": [
-            "EDGE"
-          ]
         }
       },
       "DependsOn": []

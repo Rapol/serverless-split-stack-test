@@ -10,8 +10,9 @@
       "variableSyntax": "\\${([ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}",
       "name": "aws",
       "runtime": "nodejs6.10",
-      "profile": "cjs-stage",
-      "versionFunctions": true,
+      "memorySize": 128,
+      "timeout": 5,
+      "versionFunctions": false,
       "remoteFunctionData": null,
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
@@ -115,11 +116,11 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z/split-stack-documentation-test-v2.zip"
+                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z/hello.zip"
               },
               "FunctionName": "split-stack-documentation-test-v2-stage-hello",
-              "Handler": "handler.hello",
-              "MemorySize": 1024,
+              "Handler": "src/handler.hello",
+              "MemorySize": 128,
               "Role": {
                 "Fn::GetAtt": [
                   "IamRoleLambdaExecution",
@@ -127,14 +128,14 @@
                 ]
               },
               "Runtime": "nodejs6.10",
-              "Timeout": 6
+              "Timeout": 5
             },
             "DependsOn": [
               "HelloLogGroup",
               "IamRoleLambdaExecution"
             ]
           },
-          "ApiGatewayDeployment1518469432633": {
+          "ApiGatewayDeployment1518499175710": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -149,6 +150,25 @@
               "APINestedStack",
               "MethodsNestedStack"
             ]
+          },
+          "APINestedStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "Parameters": {},
+              "TemplateURL": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://s3.amazonaws.com",
+                    {
+                      "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
+                    "cloudformation-template-API-nested-stack.json"
+                  ]
+                ]
+              }
+            }
           },
           "MethodsNestedStack": {
             "Type": "AWS::CloudFormation::Stack",
@@ -181,7 +201,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
                     "cloudformation-template-Methods-nested-stack.json"
                   ]
                 ]
@@ -191,54 +211,6 @@
               "APINestedStack",
               "HelloLambdaFunction",
               "ModelsNestedStack"
-            ]
-          },
-          "APINestedStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-              "Parameters": {},
-              "TemplateURL": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "https://s3.amazonaws.com",
-                    {
-                      "Ref": "ServerlessDeploymentBucket"
-                    },
-                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
-                    "cloudformation-template-API-nested-stack.json"
-                  ]
-                ]
-              }
-            }
-          },
-          "ModelsNestedStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-              "Parameters": {
-                "ApiGatewayRestApiParameter": {
-                  "Fn::GetAtt": [
-                    "APINestedStack",
-                    "Outputs.ApiGatewayRestApi"
-                  ]
-                }
-              },
-              "TemplateURL": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "https://s3.amazonaws.com",
-                    {
-                      "Ref": "ServerlessDeploymentBucket"
-                    },
-                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
-                    "cloudformation-template-Models-nested-stack.json"
-                  ]
-                ]
-              }
-            },
-            "DependsOn": [
-              "APINestedStack"
             ]
           },
           "PermissionsNestedStack": {
@@ -266,7 +238,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
                     "cloudformation-template-Permissions-nested-stack.json"
                   ]
                 ]
@@ -277,12 +249,15 @@
               "HelloLambdaFunction"
             ]
           },
-          "VersionsNestedStack": {
+          "ModelsNestedStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
               "Parameters": {
-                "HelloLambdaFunctionParameter": {
-                  "Ref": "HelloLambdaFunction"
+                "ApiGatewayRestApiParameter": {
+                  "Fn::GetAtt": [
+                    "APINestedStack",
+                    "Outputs.ApiGatewayRestApi"
+                  ]
                 }
               },
               "TemplateURL": {
@@ -293,14 +268,14 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
-                    "cloudformation-template-Versions-nested-stack.json"
+                    "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
+                    "cloudformation-template-Models-nested-stack.json"
                   ]
                 ]
               }
             },
             "DependsOn": [
-              "HelloLambdaFunction"
+              "APINestedStack"
             ]
           }
         },
@@ -308,15 +283,6 @@
           "ServerlessDeploymentBucketName": {
             "Value": {
               "Ref": "ServerlessDeploymentBucket"
-            }
-          },
-          "HelloLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Fn::GetAtt": [
-                "VersionsNestedStack",
-                "Outputs.HelloLambdaVersionPjXVE5k8kUFGO5hvWBjoBtNPLVcU0AW5Q5wlNWlxp1M"
-              ]
             }
           },
           "ServiceEndpoint": {
@@ -560,7 +526,7 @@
     ],
     "functions": {
       "hello": {
-        "handler": "handler.hello",
+        "handler": "src/handler.hello",
         "events": [
           {
             "http": {
@@ -674,14 +640,16 @@
           }
         ],
         "name": "split-stack-documentation-test-v2-stage-hello",
-        "package": {},
+        "package": {
+          "artifact": "/Users/rapol/Projects/split-stack-documentation-test/.serverless/hello.zip"
+        },
         "vpc": {}
       }
-    },
-    "artifact": "/Users/rapol/Projects/split-stack-documentation-test/.serverless/split-stack-documentation-test-v2.zip"
+    }
   },
   "package": {
-    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518469432623-2018-02-12T21:03:52.623Z",
-    "artifact": "split-stack-documentation-test-v2.zip"
+    "individually": true,
+    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518499175701-2018-02-13T05:19:35.701Z",
+    "artifact": ""
   }
 }

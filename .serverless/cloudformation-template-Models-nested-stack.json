@@ -42,26 +42,6 @@
       },
       "DependsOn": []
     },
-    "CreateResponseModel": {
-      "Type": "AWS::ApiGateway::Model",
-      "Properties": {
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApiParameter"
-        },
-        "ContentType": "application/json",
-        "Name": "CreateResponse",
-        "Schema": {
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "DependsOn": []
-    },
     "GetRequestModel": {
       "Type": "AWS::ApiGateway::Model",
       "Properties": {
@@ -100,6 +80,26 @@
                   }
                 }
               }
+            }
+          }
+        }
+      },
+      "DependsOn": []
+    },
+    "CreateResponseModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ContentType": "application/json",
+        "Name": "CreateResponse",
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
             }
           }
         }

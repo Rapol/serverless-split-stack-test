@@ -21,14 +21,14 @@ package:
   individually: true
   excludeDevDependencies: true
   exclude:
-    - .gitignore
-    - .serverless
-    - *.yml
-    - *.json
-    - *.js
-    - .DS_Store
-    - models/**
-    - events/**
+    - ".gitignore"
+    - ".serverless"
+    - "*.yml"
+    - "*.json"
+    - "*.js"
+    - ".DS_Store"
+    - "models/**"
+    - "events/**"
 
 functions:
   hello: ${file(functions/hello.yml)}
