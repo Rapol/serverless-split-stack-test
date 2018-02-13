@@ -100,7 +100,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z/hello.zip"
+          "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518531688178-2018-02-13T14:21:28.178Z/hello.zip"
         },
         "FunctionName": "split-stack-documentation-test-v2-stage-hello",
         "Handler": "src/handler.hello",
@@ -119,7 +119,7 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ApiGatewayDeployment1518501298338": {
+    "ApiGatewayDeployment1518531688190": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -147,7 +147,7 @@
               {
                 "Ref": "ServerlessDeploymentBucket"
               },
-              "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
+              "serverless/split-stack-documentation-test-v2/stage/1518531688178-2018-02-13T14:21:28.178Z",
               "cloudformation-template-API-nested-stack.json"
             ]
           ]
@@ -185,7 +185,7 @@
               {
                 "Ref": "ServerlessDeploymentBucket"
               },
-              "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
+              "serverless/split-stack-documentation-test-v2/stage/1518531688178-2018-02-13T14:21:28.178Z",
               "cloudformation-template-Methods-nested-stack.json"
             ]
           ]
@@ -222,7 +222,7 @@
               {
                 "Ref": "ServerlessDeploymentBucket"
               },
-              "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
+              "serverless/split-stack-documentation-test-v2/stage/1518531688178-2018-02-13T14:21:28.178Z",
               "cloudformation-template-Permissions-nested-stack.json"
             ]
           ]
@@ -252,7 +252,7 @@
               {
                 "Ref": "ServerlessDeploymentBucket"
               },
-              "serverless/split-stack-documentation-test-v2/stage/1518501298328-2018-02-13T05:54:58.328Z",
+              "serverless/split-stack-documentation-test-v2/stage/1518531688178-2018-02-13T14:21:28.178Z",
               "cloudformation-template-Models-nested-stack.json"
             ]
           ]
