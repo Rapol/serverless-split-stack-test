@@ -12,7 +12,23 @@ provider:
   runtime: nodejs6.10
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
-  profile: cjs-stage
+  memorySize: 128
+  timeout: 5
+  versionFunctions: false
+
+# exclude configuration files globally
+package:
+  individually: true
+  excludeDevDependencies: true
+  exclude:
+    - .gitignore
+    - .serverless
+    - *.yml
+    - *.json
+    - *.js
+    - .DS_Store
+    - models/**
+    - events/**
 
 functions:
   hello: ${file(functions/hello.yml)}
