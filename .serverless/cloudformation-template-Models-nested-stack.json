@@ -42,50 +42,6 @@
       },
       "DependsOn": []
     },
-    "GetRequestModel": {
-      "Type": "AWS::ApiGateway::Model",
-      "Properties": {
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApiParameter"
-        },
-        "ContentType": "application/json",
-        "Name": "GetRequest",
-        "Schema": {
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "type": "object",
-          "properties": {
-            "status": {
-              "type": "integer"
-            },
-            "data": {
-              "type": "array",
-              "items": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "subItem": {
-                    "type": "array",
-                    "items": {
-                      "$schema": "http://json-schema.org/draft-04/schema#",
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "DependsOn": []
-    },
     "CreateResponseModel": {
       "Type": "AWS::ApiGateway::Model",
       "Properties": {
@@ -99,26 +55,6 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "DependsOn": []
-    },
-    "StatusResponseModel": {
-      "Type": "AWS::ApiGateway::Model",
-      "Properties": {
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApiParameter"
-        },
-        "ContentType": "application/json",
-        "Name": "StatusResponse",
-        "Schema": {
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "type": "object",
-          "properties": {
-            "status": {
               "type": "string"
             }
           }
@@ -146,6 +82,126 @@
             },
             "message": {
               "type": "string"
+            }
+          }
+        }
+      },
+      "DependsOn": []
+    },
+    "GetRequestModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ContentType": "application/json",
+        "Name": "GetRequest",
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer"
+            },
+            "data": {
+              "$ref": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://apigateway.amazonaws.com/restapis",
+                    {
+                      "Ref": "ApiGatewayRestApiParameter"
+                    },
+                    "models",
+                    "Item"
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      },
+      "DependsOn": [
+        "ItemModel"
+      ]
+    },
+    "ItemModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ContentType": "application/json",
+        "Name": "Item",
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "subItem": {
+                "$ref": {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      "https://apigateway.amazonaws.com/restapis",
+                      {
+                        "Ref": "ApiGatewayRestApiParameter"
+                      },
+                      "models",
+                      "SubItem"
+                    ]
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "DependsOn": [
+        "SubItemModel"
+      ]
+    },
+    "StatusResponseModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ContentType": "application/json",
+        "Name": "StatusResponse",
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DependsOn": []
+    },
+    "SubItemModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ContentType": "application/json",
+        "Name": "SubItem",
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
             }
           }
         }

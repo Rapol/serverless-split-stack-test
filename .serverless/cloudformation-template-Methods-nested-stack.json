@@ -8,11 +8,70 @@
     "ApiGatewayResourceThingsParameter": {
       "Type": "String"
     },
+    "ApiGatewayResourceThingsIdVarParameter": {
+      "Type": "String"
+    },
     "HelloLambdaFunctionArnParameter": {
       "Type": "String"
     }
   },
   "Resources": {
+    "ApiGatewayMethodThingsGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceThingsParameter"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Ref": "HelloLambdaFunctionArnParameter"
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseModels": {
+              "application/json": "GetRequest"
+            }
+          },
+          {
+            "StatusCode": "403",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "500",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          }
+        ]
+      },
+      "DependsOn": []
+    },
     "ApiGatewayMethodThingsOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -57,56 +116,6 @@
         "RestApiId": {
           "Ref": "ApiGatewayRestApiParameter"
         }
-      },
-      "DependsOn": []
-    },
-    "ApiGatewayMethodThingsGet": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceThingsParameter"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApiParameter"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:aws:apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Ref": "HelloLambdaFunctionArnParameter"
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseModels": {
-              "application/json": "GetRequest"
-            }
-          },
-          {
-            "StatusCode": "500",
-            "ResponseModels": {
-              "application/json": "CustomError"
-            }
-          }
-        ]
       },
       "DependsOn": []
     },
@@ -169,6 +178,12 @@
             }
           },
           {
+            "StatusCode": "404",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
             "StatusCode": "409",
             "ResponseModels": {
               "application/json": "CustomError"
@@ -182,6 +197,12 @@
           },
           {
             "StatusCode": "429",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "500",
             "ResponseModels": {
               "application/json": "CustomError"
             }
@@ -231,6 +252,159 @@
             "StatusCode": "200",
             "ResponseModels": {
               "application/json": "StatusResponse"
+            }
+          },
+          {
+            "StatusCode": "400",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "401",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "403",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "404",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "409",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "422",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "429",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "500",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          }
+        ]
+      },
+      "DependsOn": []
+    },
+    "ApiGatewayMethodThingsIdVarOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Credentials": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                "method.response.header.Access-Control-Allow-Credentials": "'false'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceThingsIdVarParameter"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        }
+      },
+      "DependsOn": []
+    },
+    "ApiGatewayMethodThingsIdVarGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {
+          "method.request.path.id": true
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceThingsIdVarParameter"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApiParameter"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Ref": "HelloLambdaFunctionArnParameter"
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseModels": {
+              "application/json": "GetRequest"
+            }
+          },
+          {
+            "StatusCode": "403",
+            "ResponseModels": {
+              "application/json": "CustomError"
+            }
+          },
+          {
+            "StatusCode": "404",
+            "ResponseModels": {
+              "application/json": "CustomError"
             }
           },
           {

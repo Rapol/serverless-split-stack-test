@@ -20,11 +20,6 @@
         "Resources": {
           "ServerlessDeploymentBucket": {
             "Type": "AWS::S3::Bucket",
-            "Properties": {
-              "AccelerateConfiguration": {
-                "AccelerationStatus": "Suspended"
-              }
-            },
             "DependsOn": []
           },
           "HelloLogGroup": {
@@ -116,7 +111,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518531467990-2018-02-13T14:17:47.990Z/hello.zip"
+                "S3Key": "serverless/split-stack-documentation-test-v2/stage/1518625449096-2018-02-14T16:24:09.096Z/hello.zip"
               },
               "FunctionName": "split-stack-documentation-test-v2-stage-hello",
               "Handler": "src/handler.hello",
@@ -135,7 +130,7 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "ApiGatewayDeployment1518531468002": {
+          "ApiGatewayDeployment1518625449109": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -150,25 +145,6 @@
               "APINestedStack",
               "MethodsNestedStack"
             ]
-          },
-          "APINestedStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-              "Parameters": {},
-              "TemplateURL": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "https://s3.amazonaws.com",
-                    {
-                      "Ref": "ServerlessDeploymentBucket"
-                    },
-                    "serverless/split-stack-documentation-test-v2/stage/1518531467990-2018-02-13T14:17:47.990Z",
-                    "cloudformation-template-API-nested-stack.json"
-                  ]
-                ]
-              }
-            }
           },
           "MethodsNestedStack": {
             "Type": "AWS::CloudFormation::Stack",
@@ -186,6 +162,12 @@
                     "Outputs.ApiGatewayResourceThings"
                   ]
                 },
+                "ApiGatewayResourceThingsIdVarParameter": {
+                  "Fn::GetAtt": [
+                    "APINestedStack",
+                    "Outputs.ApiGatewayResourceThingsIdVar"
+                  ]
+                },
                 "HelloLambdaFunctionArnParameter": {
                   "Fn::GetAtt": [
                     "HelloLambdaFunction",
@@ -201,7 +183,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518531467990-2018-02-13T14:17:47.990Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518625449096-2018-02-14T16:24:09.096Z",
                     "cloudformation-template-Methods-nested-stack.json"
                   ]
                 ]
@@ -211,6 +193,54 @@
               "APINestedStack",
               "HelloLambdaFunction",
               "ModelsNestedStack"
+            ]
+          },
+          "APINestedStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "Parameters": {},
+              "TemplateURL": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://s3.amazonaws.com",
+                    {
+                      "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "serverless/split-stack-documentation-test-v2/stage/1518625449096-2018-02-14T16:24:09.096Z",
+                    "cloudformation-template-API-nested-stack.json"
+                  ]
+                ]
+              }
+            }
+          },
+          "ModelsNestedStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "Parameters": {
+                "ApiGatewayRestApiParameter": {
+                  "Fn::GetAtt": [
+                    "APINestedStack",
+                    "Outputs.ApiGatewayRestApi"
+                  ]
+                }
+              },
+              "TemplateURL": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://s3.amazonaws.com",
+                    {
+                      "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "serverless/split-stack-documentation-test-v2/stage/1518625449096-2018-02-14T16:24:09.096Z",
+                    "cloudformation-template-Models-nested-stack.json"
+                  ]
+                ]
+              }
+            },
+            "DependsOn": [
+              "APINestedStack"
             ]
           },
           "PermissionsNestedStack": {
@@ -238,7 +268,7 @@
                     {
                       "Ref": "ServerlessDeploymentBucket"
                     },
-                    "serverless/split-stack-documentation-test-v2/stage/1518531467990-2018-02-13T14:17:47.990Z",
+                    "serverless/split-stack-documentation-test-v2/stage/1518625449096-2018-02-14T16:24:09.096Z",
                     "cloudformation-template-Permissions-nested-stack.json"
                   ]
                 ]
@@ -247,35 +277,6 @@
             "DependsOn": [
               "APINestedStack",
               "HelloLambdaFunction"
-            ]
-          },
-          "ModelsNestedStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-              "Parameters": {
-                "ApiGatewayRestApiParameter": {
-                  "Fn::GetAtt": [
-                    "APINestedStack",
-                    "Outputs.ApiGatewayRestApi"
-                  ]
-                }
-              },
-              "TemplateURL": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "https://s3.amazonaws.com",
-                    {
-                      "Ref": "ServerlessDeploymentBucket"
-                    },
-                    "serverless/split-stack-documentation-test-v2/stage/1518531467990-2018-02-13T14:17:47.990Z",
-                    "cloudformation-template-Models-nested-stack.json"
-                  ]
-                ]
-              }
-            },
-            "DependsOn": [
-              "APINestedStack"
             ]
           }
         },
@@ -319,12 +320,7 @@
         "Description": "The AWS CloudFormation template for this Serverless application",
         "Resources": {
           "ServerlessDeploymentBucket": {
-            "Type": "AWS::S3::Bucket",
-            "Properties": {
-              "AccelerateConfiguration": {
-                "AccelerationStatus": "Suspended"
-              }
-            }
+            "Type": "AWS::S3::Bucket"
           }
         },
         "Outputs": {
@@ -387,27 +383,67 @@
                   "type": "integer"
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "$schema": "http://json-schema.org/draft-04/schema#",
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "subItem": {
-                        "type": "array",
-                        "items": {
-                          "$schema": "http://json-schema.org/draft-04/schema#",
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      }
+                  "$ref": {
+                    "Fn::Join": [
+                      "/",
+                      [
+                        "https://apigateway.amazonaws.com/restapis",
+                        {
+                          "Ref": "ApiGatewayRestApiParameter"
+                        },
+                        "models",
+                        "Item"
+                      ]
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "Item",
+            "description": "Model for an item",
+            "contentType": "application/json",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "subItem": {
+                    "$ref": {
+                      "Fn::Join": [
+                        "/",
+                        [
+                          "https://apigateway.amazonaws.com/restapis",
+                          {
+                            "Ref": "ApiGatewayRestApiParameter"
+                          },
+                          "models",
+                          "SubItem"
+                        ]
+                      ]
                     }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "SubItem",
+            "description": "Model for an item",
+            "contentType": "application/json",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
                   }
                 }
               }
@@ -564,6 +600,75 @@
                     }
                   },
                   {
+                    "statusCode": "403",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "500",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  }
+                ]
+              },
+              "integration": "AWS_PROXY"
+            }
+          },
+          {
+            "http": {
+              "path": "things/{id}",
+              "method": "get",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "request": {
+                "parameters": {
+                  "method.request.path.id": true
+                }
+              },
+              "documentation": {
+                "summary": "Get thing",
+                "tags": [
+                  "get-a-thing"
+                ],
+                "methodResponses": [
+                  {
+                    "statusCode": "200",
+                    "responseModels": {
+                      "application/json": "GetRequest"
+                    }
+                  },
+                  {
+                    "statusCode": "403",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "404",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
                     "statusCode": "500",
                     "responseModels": {
                       "application/json": "CustomError"
@@ -613,22 +718,52 @@
                     }
                   },
                   {
-                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse400Json\"]"
+                    "statusCode": "400",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
                   },
                   {
-                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse401Json\"]"
+                    "statusCode": "401",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
                   },
                   {
-                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse403Json\"]"
+                    "statusCode": "403",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
                   },
                   {
-                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse409Json\"]"
+                    "statusCode": "404",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
                   },
                   {
-                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse422Json\"]"
+                    "statusCode": "409",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
                   },
                   {
-                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse429Json\"]"
+                    "statusCode": "422",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "429",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "500",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
                   }
                 ]
               },
@@ -670,7 +805,52 @@
                     }
                   },
                   {
-                    "$ref": "$[\"service\"][\"custom\"][\"documentation\"][\"commonModelSchemaFragments\"][\"MethodResponse500Json\"]"
+                    "statusCode": "400",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "401",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "403",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "404",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "409",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "422",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "429",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
+                  },
+                  {
+                    "statusCode": "500",
+                    "responseModels": {
+                      "application/json": "CustomError"
+                    }
                   }
                 ]
               },
@@ -688,7 +868,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518531467990-2018-02-13T14:17:47.990Z",
+    "artifactDirectoryName": "serverless/split-stack-documentation-test-v2/stage/1518625449096-2018-02-14T16:24:09.096Z",
     "artifact": ""
   }
 }

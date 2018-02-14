@@ -3,6 +3,22 @@
   "Description": "APINestedStack nested stack",
   "Parameters": {},
   "Resources": {
+    "ApiGatewayResourceThings": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "things",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      },
+      "DependsOn": []
+    },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
@@ -15,16 +31,13 @@
       },
       "DependsOn": []
     },
-    "ApiGatewayResourceThings": {
+    "ApiGatewayResourceThingsIdVar": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
-          "Fn::GetAtt": [
-            "ApiGatewayRestApi",
-            "RootResourceId"
-          ]
+          "Ref": "ApiGatewayResourceThings"
         },
-        "PathPart": "things",
+        "PathPart": "{id}",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -41,6 +54,11 @@
     "ApiGatewayResourceThings": {
       "Value": {
         "Ref": "ApiGatewayResourceThings"
+      }
+    },
+    "ApiGatewayResourceThingsIdVar": {
+      "Value": {
+        "Ref": "ApiGatewayResourceThingsIdVar"
       }
     }
   }

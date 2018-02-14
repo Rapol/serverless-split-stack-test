@@ -1,9 +1,9 @@
 $schema: "http://json-schema.org/draft-04/schema#"
-type: object
-properties:
-  id:
-    type: string
-  subItem:
-    type: array
-    items: ${file(models/sub_item.yml)}
-
+type: array
+items:
+  type: object
+  properties:
+    id:
+      type: string
+    subItem:
+      $ref: "{{model: SubItem}}"

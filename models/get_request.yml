@@ -4,5 +4,4 @@ properties:
   status:
     type: integer
   data:
-    type: array
-    items: "${file(models/item.yml)}"
+    $ref: "{{model: Item}}"
